@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet"
+	href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css">
+<link rel="stylesheet"
+	href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.9.1/font/bootstrap-icons.css">
+<!-- CSS only -->
+<link
+	href="https://fonts.googleapis.com/css2?family=Montserrat&display=swap"
+	rel="stylesheet">
+<title>Login landing page</title>
+<link rel="stylesheet" th:href="@{styles.css}">
+</head>
+<body>
+	<section class="side">
+		<img th:src="@{image/img2.svg}" alt="">
+
+	</section>
+
+	<section class="main">
+		<div class="login-container">
+			<p class="title">Login Application</p>
+			<div class="separator"></div>
+			<p class="welcome-message">Please, provide login credential to
+				proceed and have access to all our services</p>
+			<div th:if="${session.message}" th:classappend="${session.message}"
+				class="alert alert-success" role="alert"
+				style="position: relative; bottom: 50px;">
+
+
+				<p th:text="${session.message}"
+					style="position: relative; left: 30px; top: 20px; font-size: 20px; color: green;">
+				</p>
+				<i class="bi bi-check-circle"></i>
+				<th:block th:text="${#session.removeAttribute('message')}"></th:block>
+			</div>
+			<div th:if="${session.msgError}" th:classappend="${session.msgError}"
+				class="alert alert-success" role="alert"
+				style="position: relative; bottom: 50px;">
+
+
+				<p th:text="${session.msgError}"
+					style="position: relative; left: 30px; top: 20px; font-size: 20px; color: green;">
+				</p>
+				<i class="bi bi-check-circle"></i>
+				<th:block th:text="${#session.removeAttribute('msgError')}"></th:block>
+			</div>
+			 <p th:if="${loginError}" class="error">Wrong user or password</p>
+			<form class="login-form" id="form" onsubmit="return validate()"
+				th:action="@{/dologin}" method="post">
+			
+				<!-- error message -->
+				<div th:if="${param.error}">
+					<div class="alert alert-danger">Invalid username or password.</div>
+				</div>
+				<div th:if="${param.logout}">
+						<div class="alert alert-info">You have been logged out.</div>
+					</div>
+					
+				<div class="form-control">
+					<input type="text" placeholder="Email" name="username"
+						onkeyup="checkEmail()" id="email"> <i
+						class="fa fa-envelope"></i>
+					<div id="alertEmail"
+						style="position: absolute; left: 370px; bottom: 15px;"></div>
+				</div>
+				<div class="form-control">
+					<input type="password" placeholder="Password" name="password"
+						id="password" onkeyup="checkPassword()"> <i
+						class="fas fa-lock"></i> <i
+						style="position: absolute; left: 370px; bottom: 10px; font-size: 18px; cursor: pointer;"
+						onclick="myFunction()" class="bi bi-eye-slash" id="togglePassword"></i>
+					<div id="alertPassword"
+						style="position: absolute; left: 340px; bottom: 15px;"></div>
+				</div>
+
+				<div class="w-full">
+					<span class="txt2"> Not a member? </span> <a href="/SingUp"
+						class="txt2"> Sign up now </a>
+				</div>
+
+				<button class="submit" style="width: 100%;" type="submit" name="login-submit"
+					onclick="return validateform()">Login</button>
+			</form>
+		</div>
+	</section>
+	<script th:src="@{js/login.js}"></script>
+
+</body>
+</html>
